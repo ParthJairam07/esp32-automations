@@ -2,13 +2,14 @@
 # Install the listener so it starts at login and runs one Shortcut.
 set -euo pipefail
 
-if [[ $# -ne 1 || -z "${1//[[:space:]]/}" ]]; then
-  echo 'Usage: ./mac/install.sh "Shortcut Name"'
-  echo 'Use the name from the Shortcuts app. See them all with: shortcuts list'
+# The button runs this Shortcut. Pass another name to override it.
+SHORTCUT="${1:-Daddy}"
+
+if [[ -z "${SHORTCUT//[[:space:]]/}" ]]; then
+  echo 'Usage: ./mac/install.sh ["Shortcut Name"]'
+  echo 'With no name, the button runs "Daddy".'
   exit 1
 fi
-
-SHORTCUT="$1"
 
 if ! command -v shortcuts >/dev/null 2>&1; then
   echo "This Mac does not have the shortcuts command. It comes with macOS Monterey and later."

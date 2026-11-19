@@ -8,18 +8,17 @@ The sketch sends a line over the USB cable. A small program on the Mac reads tha
 
 ## 1. Install the listener on the Mac
 
-The Shortcut has to exist in the Shortcuts app first. The name you pass here has to match it.
+The Shortcut in the Shortcuts app has to be named **Daddy**. That is the name the installer uses.
 
 ```bash
-shortcuts list
-./mac/install.sh "Morning"
+./mac/install.sh
 ```
 
-That starts the listener at login, for the account you are logged into. The Mac needs to be awake and unlocked when you press the button.
+That starts the listener at login and points it at Daddy. The Mac needs to be awake and unlocked when you press the button. To use a different Shortcut, pass the exact name: `./mac/install.sh "Other Name"`. `shortcuts list` shows every name.
 
 python3 is required (`brew install python` if `python3` is missing). macOS Monterey or later has the `shortcuts` command.
 
-To point the button at a different Shortcut later, run `./mac/install.sh` again with the new name.
+Run `./mac/install.sh` again after you rename the Shortcut.
 
 ## 2. Flash the ESP32 once
 
@@ -48,7 +47,7 @@ Stop the listener before uploading a new sketch, or the listener holds the seria
 ./mac/uninstall.sh
 ```
 
-Run `./mac/install.sh "Morning"` again after the upload.
+Run `./mac/install.sh` again after the upload.
 
 ## 3. Morning
 
@@ -68,7 +67,7 @@ The log is `~/Library/Logs/esp32-automations.log`.
 
 - `waiting for the ESP32 on USB` means the Mac does not see the board. Reseat the cable in the dock, and use a data cable.
 - `still waiting for the button sketch` means the board is there and this sketch is not on it yet.
-- `shortcut failed` means the name does not match the Shortcuts app. Run `shortcuts list` and install again with the exact name.
+- `shortcut failed` means the Shortcuts app has no shortcut named Daddy. Rename it to Daddy, or run `./mac/install.sh` with the name from `shortcuts list`.
 - The READY line in the log includes `pin=0` or `pin=9`. That is the GPIO this build treats as BOOT. If a press still does nothing, change `BUTTON_PIN` at the top of the sketch to the GPIO your board's BOOT button uses, then flash again.
 
 A press in the first second after the board powers up is ignored so plugging the dock in does not run the Shortcut by itself.
